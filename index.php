@@ -1,19 +1,5 @@
   <?php
-  $hello = "Hello World!";
-  ?>
-  <!DOCTYPE html>
-  <html lang="en">
 
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-  </head>
+  $heading = "Home";
 
-  <body>
-    <h1>
-      <?= $hello; ?>
-    </h1>
-  </body>
-
-  </html>
+  require "views/index.view.php";
