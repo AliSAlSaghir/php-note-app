@@ -18,6 +18,9 @@ class Router {
   public function put($uri, $controller) {
     $this->add($uri, $controller, 'PUT');
   }
+  public function patch($uri, $controller) {
+    $this->add($uri, $controller, 'PATCH');
+  }
   public function delete($uri, $controller) {
     $this->add($uri, $controller, 'DELETE');
   }
