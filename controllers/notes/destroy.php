@@ -1,11 +1,9 @@
 <?php
 
 
+$db = App::resolve(Database::class);
+
 $currentUserId = 2;
-$config = require basePath("/config.php");
-
-$db = new Database($config['database']);
-
 
 $query = "SELECT * FROM notes where id= :id";
 $note = $db->query($query, [':id' => $_POST['id']])->findOrFail();

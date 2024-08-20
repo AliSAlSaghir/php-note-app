@@ -1,8 +1,6 @@
 <?php
 
-$config = require basePath("/config.php");
-
-$db = new Database($config['database']);
+$db = App::resolve(Database::class);
 
 $id = $_GET['id'] ?? 2;
 
