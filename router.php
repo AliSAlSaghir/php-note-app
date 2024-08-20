@@ -1,38 +1,37 @@
 <?php
 
-$uri = parse_url($_SERVER['REQUEST_URI'])['path'];
-
-$routes = require basePath("/routes.php");
-
-function routeToController($uri, $routes) {
-  if (array_key_exists($uri, $routes)) {
-    require $routes[$uri];
-  } else {
-    abort();
+class Router {
+  public $routes = [];
+  public function add($uri, $controller, $method) {
+    $this->routes[] = [
+      'uri' => $uri,
+      'controller' => $controller,
+      'method' => $method,
+    ];
+  }
+  public function get($uri, $controller) {
+    $this->add($uri, $controller, 'GET');
+  }
+  public function post($uri, $controller) {
+    $this->add($uri, $controller, 'POST');
+  }
+  public function put($uri, $controller) {
+    $this->add($uri, $controller, 'PUT');
+  }
+  public function delete($uri, $controller) {
+    $this->add($uri, $controller, 'DELETE');
+  }
+  public function route($uri, $method) {
+    foreach ($this->routes as $route) {
+      if ($route['uri'] == $uri && $route['method'] == strtoupper($method)) {
+        return require basePath('/' . $route['controller']);
+      }
+    }
+    $this->abort();
+  }
+  protected function abort($code = 404) {
+    http_response_code($code);
+    require basePath("/views/{$code}.php");
+    die();
   }
 }
-
-function abort($code = 404) {
-  http_response_code($code);
-  require basePath("/../views/{$code}.php");
-  die();
-}
-
-routeToController($uri, $routes);
-
-// array(6) {
-//   ["/"]=>
-//   string(21) "controllers/index.php"
-//   ["/about"]=>
-//   string(21) "controllers/about.php"
-//   ["/contact"]=>
-//   string(23) "controllers/contact.php"
-//   ["/notes"]=>
-//   string(27) "controllers/notes/index.php"
-//   ["/notes/create"]=>
-//   string(28) "controllers/notes/create.php"
-//   ["/note"]=>
-//   string(26) "controllers/notes/show.php"
-// }
-
-// string(8) "/public/"
