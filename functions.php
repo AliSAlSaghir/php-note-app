@@ -14,3 +14,12 @@ function urlIs($value) {
 function authorize($condition, $status = Response::FORBIDDEN) {
   if (!$condition) abort($status);
 }
+
+function basePath($path) {
+  return __DIR__ . $path;
+}
+
+function view($path, $attributes = []) {
+  extract($attributes);
+  require basePath('/views/' . $path);
+}
