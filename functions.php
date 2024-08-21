@@ -13,9 +13,19 @@ function abort($code = 404) {
   die();
 }
 
-function urlIs($value) {
-  return $_SERVER['REQUEST_URI'] === $value;
+function urlIs($pattern) {
+  $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+  // Check if the pattern ends with a wildcard '*'
+  if (substr($pattern, -1) === '*') {
+    // Remove the wildcard and match the beginning of the URI
+    $pattern = rtrim($pattern, '*');
+    return strpos($uri, $pattern) === 0;
+  }
+
+  return $uri === $pattern;
 }
+
 
 function authorize($condition, $status = Response::FORBIDDEN) {
   if (!$condition) abort($status);

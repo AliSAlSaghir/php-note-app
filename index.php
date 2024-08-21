@@ -1,12 +1,24 @@
 <?php
 
+session_start();
+
 const BASE_PATH = __DIR__ . '/';
 require BASE_PATH . "functions.php";
 
 
 spl_autoload_register(function ($class) {
-  require basePath('/' . $class . '.php');
+  $directories = ['/', '/middleware/'];
+
+  foreach ($directories as $directory) {
+    $path = basePath($directory . $class . '.php');
+    if (file_exists($path)) {
+      require $path;
+      return;
+    }
+  }
 });
+
+
 
 require basePath('/bootstrap.php');
 
