@@ -54,3 +54,8 @@ function logout() {
   $params = session_get_cookie_params();
   setcookie('PHPSESSID', '', time() - 3600, $params['path'], $params['domain']);
 }
+
+function redirect($path) {
+  header("location: $path");
+  die();
+}
