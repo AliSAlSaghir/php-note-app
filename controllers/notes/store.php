@@ -1,6 +1,6 @@
 <?php
 
-require basePath("/Validator.php");
+require basePath("/core/Validator.php");
 
 $db = App::resolve(Database::class);
 

@@ -1,8 +1,8 @@
 <?php
 
-require 'Container.php';
-require 'App.php';
-require 'Database.php';
+require basePath('/core/Container.php');
+require basePath('/core/App.php');
+require basePath('/core/Database.php');
 
 $container = new Container();
 

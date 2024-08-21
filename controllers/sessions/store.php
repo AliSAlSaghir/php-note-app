@@ -4,7 +4,7 @@
 $email = $_POST['email'];
 $password = $_POST['password'];
 
-require basePath("/Validator.php");
+require basePath("/core/Validator.php");
 
 $db = App::resolve(Database::class);
 
