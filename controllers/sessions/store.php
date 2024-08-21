@@ -12,7 +12,7 @@ $errors = [];
 if (!Validator::email($email)) $errors['email'] = 'Please provide a valid email address!';
 if (!Validator::string($password, 7, 255)) $errors['password'] = 'Password should be at least 7 characters long!';
 if (!empty($errors)) {
-  require view("registration/create.view.php", [
+  require view("sessions/create.view.php", [
     'errors' => $errors,
   ]);
 }
@@ -22,20 +22,19 @@ $user = $db->query("SELECT * FROM users WHERE email = :email", [
 ])->find();
 
 if ($user) {
-  header('location: /');
-  die();
-} else {
+  if (password_verify($password, $user['password'])) {
+    login([
+      'email' => $email
+    ]);
 
-  $db->query('INSERT INTO users(email,password) VALUES(:email,:password)', [
-    'email' => $email,
-    'password' => password_hash($password, PASSWORD_BCRYPT),
-  ]);
-
-  login([
-    'email' => $email
-  ]);
-
-  header('location: /');
-
-  die();
+    header('location: /');
+    die();
+  }
 }
+
+
+return view('sessions/create.view.php', [
+  'errors' => [
+    'email' => 'No matching account found for that email address password'
+  ]
+]);
